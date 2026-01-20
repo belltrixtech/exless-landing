@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exless - Breakup Recovery App</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #0A0A0A;
+      color: #FFFFFF;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      padding: 24px 0;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 28px;
+      font-weight: bold;
+      color: #FFFFFF;
+    }
+
+    .logo img {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .nav a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav a:hover {
+      color: #FFFFFF;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: #FF2D55;
+      color: white;
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .cta-button:hover {
+      background: #E02649;
+      transform: translateY(-2px);
+    }
+
+    .cta-button-large {
+      padding: 18px 48px;
+      font-size: 18px;
+      border-radius: 16px;
+    }
+
+    .app-store-button {
+      display: inline-block;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .app-store-button:hover {
+      transform: translateY(-4px);
+      opacity: 0.9;
+    }
+
+    .app-store-button svg {
+      height: 60px;
+      width: auto;
+      display: block;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 120px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(255, 45, 85, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .trust-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50px;
+      margin-bottom: 32px;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .hero h1 {
+      font-size: 72px;
+      font-weight: bold;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      color: #FFFFFF;
+    }
+
+    .hero .highlight {
+      color: #FF2D55;
+    }
+
+    .hero p {
+      font-size: 24px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 48px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Stats Section */
+    .stats {
+      padding: 100px 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(255, 45, 85, 0.05) 50%, transparent 100%);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 60px;
+      text-align: center;
+    }
+
+    .stat-item h3 {
+      font-size: 64px;
+      font-weight: bold;
+      color: #FF2D55;
+      margin-bottom: 12px;
+    }
+
+    .stat-item p {
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 100px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 80px;
+      color: #FFFFFF;
+    }
+
+    .feature-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      margin-bottom: 120px;
+    }
+
+    .feature-row:nth-child(even) .feature-content {
+      order: 2;
+    }
+
+    .feature-row:nth-child(even) .feature-image {
+      order: 1;
+    }
+
+    .feature-content h3 {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #FFFFFF;
+    }
+
+    .feature-content p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .feature-image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .feature-image img {
+      max-width: 100%;
+      height: auto;
+      filter: drop-shadow(0 20px 60px rgba(255, 45, 85, 0.3));
+    }
+
+    /* How It Works */
+    .how-it-works {
+      padding: 100px 0;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 60px;
+      margin-top: 60px;
+    }
+
+    .step {
+      text-align: center;
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #FF2D55 0%, #E02649 100%);
+      color: white;
+      border-radius: 50%;
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 24px;
+      box-shadow: 0 20px 40px rgba(255, 45, 85, 0.3);
+    }
+
+    .step h3 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 16px;
+      color: #FFFFFF;
+    }
+
+    .step p {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: 120px 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 1000px;
+      height: 1000px;
+      background: radial-gradient(circle, rgba(255, 45, 85, 0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-section h2 {
+      font-size: 56px;
+      font-weight: bold;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-section p {
+      font-size: 20px;
+      margin-bottom: 48px;
+      color: rgba(255, 255, 255, 0.7);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Footer */
+    footer {
+      padding: 60px 0 40px;
+      background: rgba(255, 255, 255, 0.02);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand h3 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+
+    .footer-brand p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .footer-column h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .footer-column a {
+      display: block;
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      margin-bottom: 12px;
+      font-size: 15px;
+      transition: color 0.3s;
+    }
+
+    .footer-column a:hover {
+      color: #FF2D55;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 14px;
+    }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      .hero h1 {
+        font-size: 48px;
+      }
+
+      .hero p {
+        font-size: 18px;
+      }
+
+      .feature-row {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .feature-row:nth-child(even) .feature-content {
+        order: 1;
+      }
+
+      .feature-row:nth-child(even) .feature-image {
+        order: 2;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .stats-grid {
+        gap: 40px;
+      }
+
+      .stat-item h3 {
+        font-size: 48px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .section-title {
+        font-size: 32px;
+      }
+
+      .cta-section h2 {
+        font-size: 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <img src="app-icon.png" alt="Exless">
+          Exless
+        </div>
+        <nav class="nav">
+          <a href="#features">Features</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#download">Download</a>
+        </nav>
+        <a href="https://apps.apple.com/us/app/exless-breakup-recovery/id6756549156" class="cta-button" target="_blank" rel="noopener">Try for free</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="trust-badge">
+          Trusted by people healing from breakups
+        </div>
+        
+        <h1>
+          Want to text your ex?<br>
+          <span class="highlight">Text us instead.</span>
+        </h1>
+        
+        <p>
+          Get closure without breaking no contact. Your personalized breakup recovery toolkit.
+        </p>
+        
+        <a href="https://apps.apple.com/us/app/exless-breakup-recovery/id6756549156" class="app-store-button" target="_blank" rel="noopener">
+          <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none">
+              <rect width="120" height="40" rx="5" fill="#000"/>
+              <path d="M24.769 20.3a4.947 4.947 0 012.356-4.15 5.066 5.066 0 00-3.99-2.158c-1.68-.176-3.308 1.005-4.164 1.005-.872 0-2.19-.988-3.608-.958a5.315 5.315 0 00-4.473 2.728c-1.934 3.348-.491 8.269 1.361 10.976.927 1.325 2.01 2.805 3.428 2.753 1.387-.058 1.905-.885 3.58-.885 1.658 0 2.144.885 3.59.852 1.489-.024 2.426-1.331 3.32-2.67a10.962 10.962 0 001.52-3.092 4.782 4.782 0 01-2.92-4.4zM22.037 12.21a4.872 4.872 0 001.115-3.49 4.957 4.957 0 00-3.208 1.66A4.636 4.636 0 0018.8 13.74a4.1 4.1 0 003.237-1.53z" fill="#fff"/>
+              <text fill="#fff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto" font-size="10" font-weight="500">
+                <tspan x="40" y="14">Download on the</tspan>
+              </text>
+              <text fill="#fff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto" font-size="17" font-weight="600">
+                <tspan x="40" y="30">App Store</tspan>
+              </text>
+            </g>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <h3>7-14</h3>
+          <p>Days to feel significantly better</p>
+        </div>
+        <div class="stat-item">
+          <h3>24/7</h3>
+          <p>AI Coach availability</p>
+        </div>
+        <div class="stat-item">
+          <h3>100%</h3>
+          <p>Safe - messages never sent</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="container">
+      <h2 class="section-title">How Exless Helps You Heal</h2>
+      
+      <div class="feature-row">
+        <div class="feature-content">
+          <h3>Text Your Ex Safely</h3>
+          <p>
+            Draft all the messages you want without actually sending them. Process your emotions, get closure, and say what you need to say—all in a safe space where no contact is broken.
+          </p>
+        </div>
+        <div class="feature-image">
+          <img src="text-ex-screen.png" alt="Text Your Ex feature">
+        </div>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature-content">
+          <h3>24/7 AI Coach</h3>
+          <p>
+            Get personalized support whenever you need it. Talk through urges, process emotions, and receive evidence-based guidance tailored to your specific situation—day or night.
+          </p>
+        </div>
+        <div class="feature-image">
+          <img src="coach-screen.png" alt="AI Coach feature">
+        </div>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature-content">
+          <h3>Build Your Streak</h3>
+          <p>
+            Track your no-contact progress with daily check-ins. Watch your streak grow as you build momentum and celebrate each day you choose healing over reaching out.
+          </p>
+        </div>
+        <div class="feature-image">
+          <img src="dashboard-screen.png" alt="Streak tracking feature">
+        </div>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature-content">
+          <h3>SOS Support</h3>
+          <p>
+            Emergency tools for when the urge hits hard. Get through the next 5 minutes with breathing exercises, interventions, and immediate support when you need it most.
+          </p>
+        </div>
+        <div class="feature-image">
+          <img src="sos-screen.png" alt="SOS support feature">
+        </div>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature-content">
+          <h3>Track Your Goals</h3>
+          <p>
+            Set personalized recovery goals and track your progress. Break down your healing journey into manageable steps and celebrate each milestone along the way.
+          </p>
+        </div>
+        <div class="feature-image">
+          <img src="goals-screen.png" alt="Goals tracking feature">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <h2 class="section-title">How It Works</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Share Your Story</h3>
+          <p>Quick onboarding to understand your situation and create your personalized recovery plan.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Use Safe Outlets</h3>
+          <p>Draft messages, talk to your AI coach, and track your progress—all without contacting your ex.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Build Your Streak</h3>
+          <p>Daily check-ins keep you accountable. Watch the days add up as you heal and move forward.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="cta-section" id="download">
+    <div class="container">
+      <h2>Ready to start healing?</h2>
+      <p>Join others who chose recovery over reaching out</p>
+      <a href="https://apps.apple.com/us/app/exless-breakup-recovery/id6756549156" class="app-store-button" target="_blank" rel="noopener">
+        <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none">
+            <rect width="120" height="40" rx="5" fill="#000"/>
+            <path d="M24.769 20.3a4.947 4.947 0 012.356-4.15 5.066 5.066 0 00-3.99-2.158c-1.68-.176-3.308 1.005-4.164 1.005-.872 0-2.19-.988-3.608-.958a5.315 5.315 0 00-4.473 2.728c-1.934 3.348-.491 8.269 1.361 10.976.927 1.325 2.01 2.805 3.428 2.753 1.387-.058 1.905-.885 3.58-.885 1.658 0 2.144.885 3.59.852 1.489-.024 2.426-1.331 3.32-2.67a10.962 10.962 0 001.52-3.092 4.782 4.782 0 01-2.92-4.4zM22.037 12.21a4.872 4.872 0 001.115-3.49 4.957 4.957 0 00-3.208 1.66A4.636 4.636 0 0018.8 13.74a4.1 4.1 0 003.237-1.53z" fill="#fff"/>
+            <text fill="#fff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto" font-size="10" font-weight="500">
+              <tspan x="40" y="14">Download on the</tspan>
+            </text>
+            <text fill="#fff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto" font-size="17" font-weight="600">
+              <tspan x="40" y="30">App Store</tspan>
+            </text>
+          </g>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h3>Exless</h3>
+          <p>The breakup recovery app that helps you heal without breaking no contact.</p>
+        </div>
+
+        <div class="footer-column">
+          <h4>Product</h4>
+          <a href="#features">Features</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#download">Download</a>
+        </div>
+
+        <div class="footer-column">
+          <h4>Company</h4>
+          <a href="https://belltrixtech.github.io/exless-legal/privacy.html" target="_blank">Privacy Policy</a>
+          <a href="https://belltrixtech.github.io/exless-legal/terms.html" target="_blank">Terms of Service</a>
+        </div>
+
+        <div class="footer-column">
+          <h4>Support</h4>
+          <a href="/cdn-cgi/l/email-protection#76130e1a13050517060636111b171f1a5815191b">Contact Us</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Exless. All rights reserved.</p>
+      </di
